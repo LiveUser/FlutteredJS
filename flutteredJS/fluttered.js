@@ -1,0 +1,204 @@
+//Made by Radamés J. Valentín Reyes in Puerto Rico
+
+/*Parameters
+------------------------------------------------------------------------------------------------------------------------*/
+var TextAlign = {
+  center: 'center',
+  left: 'flex-start',
+  right: 'flex-end',
+};
+var MainAxisAlignment = {
+  start: 'flex-start',
+  end: 'flex-end',
+  center: 'center',
+  spaceAround: 'space-around',
+  spaceBetween: 'space-between',
+};
+var CrossAxisAlignment = MainAxisAlignment;
+var BorderStyle = {
+  solid: 'solid',
+  dotted: 'dotted',
+  dashed: 'dashed',
+  double: 'double',
+  groove: 'groove',
+  ridge: 'ridge',
+  inset: 'inset',
+  outset: 'outset',
+  none: 'none',
+  hidden: 'hidden',
+};
+var ContentDirection = {
+  default: '',
+  reverse: '-reverse',
+};
+var BoxFit = {
+  fill: 'fill',
+  contain: 'contain',
+  cover: 'cover',
+  scaleDown: 'scale-down',
+  none: 'none',
+};
+/*Functions for the widgets
+------------------------------------------------------------------------------------------------------------------------*/
+
+/*Widgets
+------------------------------------------------------------------------------------------------------------------------*/
+//Scaffold is an initializer, no an actual widget or component, it simply appends the first element to the body and formats the document body
+//--------------------
+function Scaffold(object = new Object(),){
+  if(object !== null && object.body != undefined){
+    //Initialize everything after the whole document and assets have been loaded
+    document.addEventListener('DOMContentLoaded', ()=>{
+      //Remove body padding y hacer la caja 100% x 100%
+      document.body.style.padding = '0';
+      document.body.style.margin = '0';
+      document.body.style.height = '100vh';
+      document.body.style.width = '100%';
+      //Defining the body as a flex breaks the code. Do not document.body.style.display = 'flex';
+      //Generate a name
+      document.body.append(object.body);
+    });
+  }else{
+    throw 'Scaffold with empty body';
+  }
+}
+//--------------------
+function Column(object = new Object(),){
+  const myColumn = document.createElement('_column_');
+  myColumn.style.width = '100%';
+  myColumn.style.height = '100%';
+  myColumn.style.flexBasis = '100%';
+  myColumn.style.display = 'flex';
+  myColumn.style.flexDirection = `column${object.contentDirection || ContentDirection.default}`;
+  myColumn.style.flex = object.flex !== undefined? object.flex.toString():'1';
+  myColumn.style.backgroundColor = object.backgroundColor || '';
+  myColumn.style.padding = object.padding !== undefined? `${object.padding}px`:'0px';
+  myColumn.style.boxSizing = 'border-box';
+  myColumn.style.borderRadius = object.borderRadius !== undefined? `${object.borderRadius}%`:'0%';
+  //This is horizontal alignment
+  myColumn.style.justifyContent = object.crossAxisAlignment || CrossAxisAlignment.start;
+  //This is vertical alignment
+  myColumn.style.alignItems = object.mainAxisAlignment || MainAxisAlignment.start;
+  //Populate the Column with children, childres is a reserved name of HTML element so I used kids instead
+  this.kids = object.children || [];
+  this.kids.forEach(HTMLelement => {
+    myColumn.appendChild(HTMLelement);
+  });
+  return myColumn;
+}
+//--------------------
+function Row(object = new Object(),){
+  const myRow = document.createElement('_Row_');
+  myRow.style.width = '100%';
+  myRow.style.height = '100%';
+  myRow.style.flexBasis = '100%';
+  myRow.style.display = 'flex';
+  myRow.style.flexDirection = `row${object.contentDirection || ContentDirection.default}`;
+  myRow.style.flex = object.flex !== undefined? object.flex.toString():'1';
+  myRow.style.backgroundColor = object.backgroundColor || '';
+  myRow.style.padding = object.padding !== undefined? `${object.padding}px`:'0px';
+  myRow.style.boxSizing = 'border-box';
+  myRow.style.borderRadius = object.borderRadius !== undefined? `${object.borderRadius}%`:'0%';
+  //This is horizontal alignment
+  myRow.style.justifyContent = object.mainAxisAlignment || MainAxisAlignment.start;
+  //This is vertical alignment
+  myRow.style.alignItems = object.crossAxisAlignment || CrossAxisAlignment.start;
+  //Populate the Column with children, childres is a reserved name of HTML element so I used kids instead
+  this.kids = object.children || [];
+  this.kids.forEach(HTMLelement => {
+    myRow.appendChild(HTMLelement);
+  });
+  return myRow;
+}
+//--------------------
+function Text(object = new Object(),){
+  var myText = document.createElement('_Text_');
+  myText.innerText = object.text || '';
+  myText.style.display = 'flex';
+  //Horizontal Alignment
+  myText.style.justifyContent = object.textAlign || TextAlign.left;
+  myText.style.boxSizing = 'border-box';
+  myText.style.padding = object.padding !== undefined ? `${object.padding}px`:'0px';
+  myText.style.backgroundColor = object.backgroundColor || '';
+  myText.style.color = object.color || '';
+  myText.style.fontSize = object.fontSize !== undefined? `${object.fontSize}px`:'';
+  myText.style.fontFamily = object.fontFamily || '';
+  return myText;
+}
+//--------------------
+function Center(object = new Object(),){
+  const myCenter = document.createElement('_center_');
+  myCenter.style.width = '100%';
+  myCenter.style.height = '100%';
+  myCenter.style.flexBasis = '100%';
+  myCenter.style.display = 'flex';
+  myCenter.style.flexDirection = `column${object.contentDirection || ContentDirection.default}`;
+  myCenter.style.flex = object.flex !== undefined? object.flex.toString():'1';
+  myCenter.style.boxSizing = 'border-box';
+  //This is horizontal alignment
+  myCenter.style.justifyContent = MainAxisAlignment.center;
+  //This is vertical alignment
+  myCenter.style.alignItems = CrossAxisAlignment.center;
+  myCenter.appendChild(object.child);
+  return myCenter;
+}
+//--------------------
+function SizedBox(object = new Object(),){
+  const mySizedBox = document.createElement('_SizedBox_');
+  mySizedBox.style.width = object.width !== undefined? `${object.width}px`:'0';
+  mySizedBox.style.height = object.height !== undefined ? `${object.height}`:'0';
+  return mySizedBox;
+}
+//--------------------
+function Flex(object = new Object(),){
+  if(object.child !== undefined){
+    const myFlex = object.child;
+    myFlex.style.flex = object.flex !== undefined? `${object.flex}`:'1';
+    return myFlex;
+  }else{
+    throw 'Flex with no child';
+  }
+}
+//--------------------
+function Container(object = new Object(),){
+  var myContainer = document.createElement('_Container_');
+  myContainer.style.display = 'flex';
+  myContainer.style.flexDirection = 'column';
+  myContainer.style.boxSizing = 'border-box';
+  //Change to defined dimensions if specified
+  if(object.width !== undefined){
+    myContainer.style.width = `${object.width}px`;
+  }
+  if(object.height !== undefined){
+    myContainer.style.height = `${object.height}px`;
+  }
+  myContainer.style.backgroundColor = object.color || '';
+  myContainer.style.padding = object.padding !== undefined? `${object.padding}px`:'0';
+  //Add margin by containing the element within a column
+  if(object.margin !== undefined){
+    const myMargin = document.createElement('_margin_');
+    myMargin.style.display = 'flex';
+    myMargin.style.flexDirection = 'column';
+    myMargin.style.boxSizing = 'border-box';
+    myMargin.style.padding = `${object.margin}px`;
+    //add margin to container
+    myMargin.appendChild(myContainer);
+    myContainer = myMargin;
+  }
+
+  return myContainer;
+}
+//--------------------
+function Image(object = new Object(),){
+  const myImage = document.createElement('img');
+  myImage.src = object.imagePath || '';
+  //Be 100% by 100% by default, otherwise, set the dimensions
+  myImage.style.width = object.width !== undefined? `${object.width}px`:'100%';
+  myImage.style.height = object.height !== undefined? `${object.height}px`:'100%';
+  
+  return myImage;
+}
+//--------------------
+
+//Have a span like tag with a variablename as parameter to be a placeholder of  global variable display
+//The {{VariableName}} will be replaced with a custom span tag element and a variable property to define who it belongst to

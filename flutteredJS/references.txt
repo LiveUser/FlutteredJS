@@ -1,0 +1,12 @@
+Get class name
+https://stackoverflow.com/questions/10314338/get-name-of-object-or-class
+
+Check if it belongs to that class
+instanceof to check if its it belongs to a class
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof
+
+Check if custom element exists
+https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/get
+
+FlexBox properties and behavior
+https://www.w3schools.com/csS/css3_flexbox.asp
