@@ -105,6 +105,10 @@ Container({
     color: 'red', //A CSS color
     padding: 10,
     margin: 20, //Number
+    borderRadius: 5, //A number from 0 to 100
+    child: Text({
+        text: 'Nada',
+    }),//Takes a widget as parameter
 }),
 ~~~
 
@@ -112,7 +116,69 @@ Container({
 
 If you don't know  what this is for. Give up and choose another career.
 
-~~~javascript
+Note: width and height are set by default to 100% of the parent element (which might give you an odd behavior). If you want to proportionally scale the image only set the width or the height and not both or use the boxFit property. By default the image gets contained.
 
+~~~javascript
+Image({
+    width: 50,
+    height: 80,
+    boxFit: BoxFit.contain, //Use the BoxFit enum for an option
+}),
 ~~~
 
+### Expanded:
+
+Makes the unset dimensions of the child 100% of the parent. If you want to constrain the width or the height just set it on the child and it will remain so.
+
+~~~javascript
+Expanded({
+    child: Container({
+        color: 'green',
+        width: 20,
+    }),
+}),
+~~~
+
+### CircleAvatar:
+
+A circular Widget that can hold a child (The child will be centered)
+
+~~~javascript
+CircleAvatar({
+    backgroundColor: 'red',
+    radius: 4,//A number(default is 0 so if it will be invisible if you don't assign any value)
+    borderStyle: BorderStyle.solid, //Use the BorderStyle enum to set the style of the border
+    borderWidth: 2,
+    borderColor: 'green',
+    child: Text({
+        text: 'RJ',
+    }),//A widget as child
+}),
+~~~
+
+### Card
+
+A container with pre-defined border radius and box-shadow. You can leave the parameters unset and it will take the defaults.
+
+~~~javascript
+Card({
+    width: 200, //A number
+    height: 100, //A number
+    color: 'white', //Default is white. so you can leave it unspecified
+    padding: 10, //Default is 0
+    borderRadius: 10, //You can leave it to the default if you want
+    shadowSize: 20, //The size of the box shadow
+    shadowColor: 'green',//Default is black
+    shadowHorizontalOffset: 5, //Shadow Horizontal displacement
+    shadowVerticalOffset: -4, //Shadow vertical displacement
+    shadowBlur: 10, //Number
+    shadowSize: 10, //Size of the shadow
+    child: Text({
+        text: 'Hello World from Puerto Rico',
+    }),//A fluttered Widget
+}),
+~~~
+
+
+
+A circle with the specified child inside.
