@@ -38,6 +38,14 @@ var BoxFit = {
   scaleDown: 'scale-down',
   none: 'none',
 };
+var OpenLink = {
+  thisTab: '_self',
+  newTab: '_blank',
+};
+var InputType = {
+  text: 'text',
+  number: 'number',
+};
 /*Functions for the widgets
 ------------------------------------------------------------------------------------------------------------------------*/
 
@@ -123,6 +131,7 @@ function Text(object = new Object(),){
   myText.style.color = object.color || '';
   myText.style.fontSize = object.fontSize !== undefined? `${object.fontSize}px`:'';
   myText.style.fontFamily = object.fontFamily || '';
+  myText.style.userSelect = object.selectable == true?'auto':'none';
   return myText;
 }
 //--------------------
@@ -262,6 +271,49 @@ function Card(object = new Object(),){
     myCard.append(object.child);
   }
   return myCard;
+}
+//--------------------
+function Link(object = new Object(),){
+  const myLink = document.createElement('a');
+  myLink.href = object.link || '';
+  myLink.target = object.openLink || OpenLink.thisTab;
+  myLink.style.textDecoration = 'none';
+  if(object.child !== undefined){
+    myLink.style.borderRadius = object.child.style.borderRadius;
+    myLink.append(object.child);
+  }
+  return myLink;
+}
+//--------------------
+function InputField(object = new Object(),){
+  const myInputField = document.createElement('input');
+  //Basic Styling
+  myInputField.style.boxSizing = 'border-box';
+  myInputField.type = object.type || InputType.text;
+  myInputField.style.width = object.width !== undefined? `${object.width}px`:'';
+  myInputField.style.height = object.height !== undefined? `${object.height}px`:'';
+  myInputField.style.fontSize = object.fontSize !== undefined?`${object.fontSize}px`:'';
+  myInputField.style.color = object.color || '';
+  myInputField.style.padding = object.padding !== undefined?`${object.padding}px`:'';
+  myInputField.style.borderWidth = object.borderSize !== undefined? `${object.borderSize}px`:'';
+  myInputField.style.borderColor = object.borderColor || '';
+  myInputField.style.borderStyle = object.borderStyle || BorderStyle.solid;
+  myInputField.value = object.initialValue || '';
+  myInputField.style.borderRadius = object.borderRadius !== undefined? `${object.borderRadius}px`:'0';
+  myInputField.style.outline = 'none';
+  myInputField.placeholder = object.placeholder || '';
+  //Attach event
+  if(typeof object.onChange =='function'){
+    myInputField.addEventListener('input',()=>{
+      var inputValue = myInputField.value;
+      //Do not call if the input is for number and it is not a number
+      if(myInputField.type == InputType.number && Number(inputValue) !== NaN || myInputField.type == InputType.text){
+        //If the inputtype is number send back a number
+        object.onChange(myInputField.type == InputType.number?Number(inputValue):inputValue);
+      }
+    });
+  }
+  return myInputField;
 }
 //--------------------
 //Have a span like tag with a variablename as parameter to be a placeholder of  global variable display

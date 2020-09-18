@@ -22,6 +22,7 @@ Scaffold({
               Text({
                 text: 'Sexy Smurf Website: (+18)',
                 color: 'white',
+                selectable: false,
               }),
             ],
           }),
@@ -48,10 +49,18 @@ Scaffold({
         height: 100,
         width: 500,
         child: Center({
-          child: Text({
-            text: 'Enter Smurfland',
-            fontSize: 20,
-            color: '#5bb5e9',
+          child: InputField({
+            width: 150,
+            height: 30,
+            type: InputType.number,
+            fontSize: 12,
+            initialValue: 'Some value',
+            borderRadius: 20,
+            borderColor: 'green',
+            placeholder: 'E-mail',
+            onChange: (newValue)=>{
+              
+            },
           }),
         }),
       }),

@@ -17,7 +17,6 @@ Flutter inspired JavaScript Library.
 ~~~javascript
 Scaffold({
   body: SomeWidget(),//Takes a widget as parameter
-  
 });
 ~~~
 
@@ -69,6 +68,7 @@ Text({
     color: 'green', //CSS color for the text
     fontFamily: 'Impact',//Set fonts as you do in CSS
     fontSize: 45,
+    selectable: true, //A boolen value. Determines wether the text can be selected or not. Default is false.
 }),
 ~~~
 
@@ -179,6 +179,44 @@ Card({
 }),
 ~~~
 
+### Link
+
+Adds a link to the child. Just like a tag in html (literally just that).
+
+~~~javascript
+Link({
+    child: Text({
+       text: 'Go to google', 
+    }),//A widget as child
+    link: 'https://www.google.com', //A string as link
+    openLink: OpenLink.newTab, //OpenLink enum as parameter
+}),
+~~~
+
+### InputField
+
+Get text or number input field.
+
+~~~javascript
+InputField({
+    width: 20,
+    height: 10,
+    fontSize: 20,
+    type: InputType.text, //Type of input
+    color: 'red',
+    padding: 10,
+    borderSize: 2,
+    borderColor: 'blue',
+    borderStyle: BorderStyle.solid,
+    initialValue: 'something', //Initial text field value
+    borderRadius: 5,
+    placeholder: 'E-mail',
+    onChange: (newValue)=>{
+        console.log(`New value is: ${newValue}`);
+    },//A function that takes some argument as value
+}),
+~~~
 
 
-A circle with the specified child inside.
+
+To get user input. (Just like flutter Text Field Widget)
