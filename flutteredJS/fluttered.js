@@ -48,7 +48,21 @@ var InputType = {
 };
 /*Functions for the widgets
 ------------------------------------------------------------------------------------------------------------------------*/
-
+  //Global variable functionality
+  const flutteredGlobal = new Object();
+  //Hold all the variables and values, Do not modify this directly
+  flutteredGlobal._variables = new Object();
+  //Update the value and all the places in the UI containing it
+  flutteredGlobal.setValue = (variableName,variableValue)=>{
+    //Update the value
+    flutteredGlobal._variables[variableName] = variableValue;
+    //Update the elements where it gets called
+    
+  };
+  flutteredGlobal.getValue = (variableName)=>{
+    //If it is undefined return null instead of undefined
+    return flutteredGlobal._variables[variableName] === undefined?null:flutteredGlobal._variables[variableName];
+  };
 /*Widgets
 ------------------------------------------------------------------------------------------------------------------------*/
 //Scaffold is an initializer, no an actual widget or component, it simply appends the first element to the body and formats the document body
@@ -132,6 +146,37 @@ function Text(object = new Object(),){
   myText.style.fontSize = object.fontSize !== undefined? `${object.fontSize}px`:'';
   myText.style.fontFamily = object.fontFamily || '';
   myText.style.userSelect = object.selectable == true?'auto':'none';
+  //To support displaying(updating) global variables replace {{varname}} with a span tag and varname
+  const openingTag = [];
+  const closingTag = [];
+  var elementText = myText.innerText;
+    //Find opening and closing tags {{ and }}
+    for(i = 0; i < elementText.length; i++){
+      if(elementText.substring(i,i+2) == '{{'){
+        //Add the index
+        openingTag[openingTag.length] = i;
+      }else if(elementText.substring(i,i+2) == '}}'){
+        closingTag[closingTag.length] = i;
+      }else{
+        //Do nothing if its not a tag
+      }
+    }
+    const  variableNames = [];
+    //Find variable names
+    for(i=0 ; i < openingTag.length;i++){
+      //Add 2 to the openingTag index to ignore {{ and don't add anything to the closing to avoid including }}
+      const myVar = elementText.substring((openingTag[i]+2),closingTag[i]);
+      variableNames[variableNames.length] = myVar;
+    }
+    //Replace variable placeholder with span tags
+    for(i=0;i<variableNames.length;i++){
+      const variablePlaceholder = RegExp(`{{${variableNames[i]}}}`,'g');
+      //Remove whitespace from variable name
+      variableNames[i] = variableNames[i].replace(/ /g,'');
+      elementText = elementText.replace(variablePlaceholder,`aquí va`);
+    }
+  //Update with the formatted text
+  myText.innerHTML = elementText;
   return myText;
 }
 //--------------------
@@ -315,6 +360,8 @@ function InputField(object = new Object(),){
   }
   return myInputField;
 }
+//--------------------
+
 //--------------------
 //Have a span like tag with a variablename as parameter to be a placeholder of  global variable display
 //The {{VariableName}} will be replaced with a custom span tag element and a variable property to define who it belongst to

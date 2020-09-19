@@ -195,14 +195,14 @@ Link({
 
 ### InputField
 
-Get text or number input field.
+Get text or number input field. If the type is number the onChange will send a number as parameter, if it is text it will give a string.
 
 ~~~javascript
 InputField({
     width: 20,
     height: 10,
     fontSize: 20,
-    type: InputType.text, //Type of input
+    type: InputType.text, //Type of input, default is text
     color: 'red',
     padding: 10,
     borderSize: 2,
@@ -216,6 +216,10 @@ InputField({
     },//A function that takes some argument as value
 }),
 ~~~
+
+### Global
+
+The thing that sets Fluttered.JS apart. The ability to update the display of a variable on any part of the screen.
 
 
 

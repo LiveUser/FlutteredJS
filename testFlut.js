@@ -20,7 +20,7 @@ Scaffold({
                 width: 30,
               }),
               Text({
-                text: 'Sexy Smurf Website: (+18)',
+                text: 'Sexy Smurf Website: (+18) {{myEmail }}',
                 color: 'white',
                 selectable: false,
               }),
