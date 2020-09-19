@@ -59,7 +59,7 @@ Scaffold({
             borderColor: 'green',
             placeholder: 'E-mail',
             onChange: (newValue)=>{
-              
+              flutteredGlobal.setValue('myEmail',newValue);
             },
           }),
         }),

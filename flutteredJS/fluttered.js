@@ -56,8 +56,17 @@ var InputType = {
   flutteredGlobal.setValue = (variableName,variableValue)=>{
     //Update the value
     flutteredGlobal._variables[variableName] = variableValue;
-    //Update the elements where it gets called
-    
+    //Update the elements where it gets called by searching them
+    const allSpans = document.getElementsByTagName('span');
+    for(i=0; i < allSpans.length;i++){
+      const thisElement = allSpans.item(i);
+      //If element has my varname update its content
+      if(thisElement.getAttribute('varname') == variableName){
+        thisElement.innerHTML = `${variableValue}`;
+      }else{
+
+      }
+    }
   };
   flutteredGlobal.getValue = (variableName)=>{
     //If it is undefined return null instead of undefined
@@ -173,7 +182,7 @@ function Text(object = new Object(),){
       const variablePlaceholder = RegExp(`{{${variableNames[i]}}}`,'g');
       //Remove whitespace from variable name
       variableNames[i] = variableNames[i].replace(/ /g,'');
-      elementText = elementText.replace(variablePlaceholder,`aquí va`);
+      elementText = elementText.replace(variablePlaceholder,`<span varname="${variableNames[i]}"></span>`);
     }
   //Update with the formatted text
   myText.innerHTML = elementText;
