@@ -2,23 +2,7 @@
 
 Flutter inspired JavaScript Library.
 
-## Add the script to your HTML Head
-
-~~~javascript
-<script src="./flutteredJS/fluttered.js"></script>
-~~~
-
-
-
-
-## Example Web App
-### Create Your Web App's Entry Point
-
-~~~javascript
-Scaffold({
-  body: SomeWidget(),//Takes a widget as parameter
-});
-~~~
+Hecho en 🇵🇷 por Radamés J. Valentín Reyes
 
 ## Widgets:
 
@@ -217,10 +201,18 @@ InputField({
 }),
 ~~~
 
-### Global
+### GestureDetector
 
-The thing that sets Fluttered.JS apart. The ability to update the display of a variable on any part of the screen.
+Detects gestures and calls functions when the event is called.
 
+~~~javascript
+GestureDetector({
+    onTap: ()=>{
+        alert('Don\'t touch me');
+    },//Set a function as parameter
+    child: Text({
+        text: 'Click Me',
+    }),//Some fluttered.js widget
+}),
+~~~
 
-
-To get user input. (Just like flutter Text Field Widget)

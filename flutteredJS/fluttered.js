@@ -105,7 +105,7 @@ function Column(object = new Object(),){
   myColumn.style.backgroundColor = object.backgroundColor || '';
   myColumn.style.padding = object.padding !== undefined? `${object.padding}px`:'0px';
   myColumn.style.boxSizing = 'border-box';
-  myColumn.style.borderRadius = object.borderRadius !== undefined? `${object.borderRadius}%`:'0%';
+  myColumn.style.borderRadius = object.borderRadius !== undefined? `${object.borderRadius}px`:'0%';
   //This is horizontal alignment
   myColumn.style.justifyContent = object.crossAxisAlignment || CrossAxisAlignment.start;
   //This is vertical alignment
@@ -129,7 +129,7 @@ function Row(object = new Object(),){
   myRow.style.backgroundColor = object.backgroundColor || '';
   myRow.style.padding = object.padding !== undefined? `${object.padding}px`:'0px';
   myRow.style.boxSizing = 'border-box';
-  myRow.style.borderRadius = object.borderRadius !== undefined? `${object.borderRadius}%`:'0%';
+  myRow.style.borderRadius = object.borderRadius !== undefined? `${object.borderRadius}px`:'0%';
   //This is horizontal alignment
   myRow.style.justifyContent = object.crossAxisAlignment || CrossAxisAlignment.start;
   //This is vertical alignment
@@ -143,8 +143,9 @@ function Row(object = new Object(),){
 }
 //--------------------
 function Text(object = new Object(),){
-  var myText = document.createElement('_Text_');
-  myText.innerText = object.text || '';
+  //I have to use the pre tag to preserve the spaces before and after span tags
+  var myText = document.createElement('pre');
+  myText.innerHTML = object.text || '';
   myText.style.display = 'flex';
   //Horizontal Alignment
   myText.style.justifyContent = object.textAlign || TextAlign.left;
@@ -158,7 +159,7 @@ function Text(object = new Object(),){
   //To support displaying(updating) global variables replace {{varname}} with a span tag and varname
   const openingTag = [];
   const closingTag = [];
-  var elementText = myText.innerText;
+  var elementText = myText.innerHTML;
     //Find opening and closing tags {{ and }}
     for(i = 0; i < elementText.length; i++){
       if(elementText.substring(i,i+2) == '{{'){
@@ -182,7 +183,8 @@ function Text(object = new Object(),){
       const variablePlaceholder = RegExp(`{{${variableNames[i]}}}`,'g');
       //Remove whitespace from variable name
       variableNames[i] = variableNames[i].replace(/ /g,'');
-      elementText = elementText.replace(variablePlaceholder,`<span varname="${variableNames[i]}"></span>`);
+      //Load the initial value if it exists using flutteredGlobal.getValue()
+      elementText = elementText.replace(variablePlaceholder,`<span varname="${variableNames[i]}">${flutteredGlobal.getValue(variableNames[i]) || ''}</span>`);
     }
   //Update with the formatted text
   myText.innerHTML = elementText;
@@ -370,7 +372,31 @@ function InputField(object = new Object(),){
   return myInputField;
 }
 //--------------------
+function GestureDetector(object = new Object(),){
+  if(object.child == undefined){
+    throw 'GestureDetector with no child';
+  }else{
+    //Attach events that have been included
+    if(typeof object.onTap == 'function'){
+      object.child.addEventListener('click',object.onTap);
+    }
+    //Attach touch controls
+    if(object.onPan !== undefined || object.onRotate === undefined || object.onZoom === undefined){
+      //Add the touch start event
+      var segment1 = [];
+      var segment2 = [];
+      object.child.addEventListener('touchstart',()=>{
+        //Save initial segment coordinates
+        
+      });
+    }
+    return object.child;
+  }
+}
+//--------------------
+function StatefulWidget(){
 
+}
 //--------------------
 //Have a span like tag with a variablename as parameter to be a placeholder of  global variable display
 //The {{VariableName}} will be replaced with a custom span tag element and a variable property to define who it belongst to
