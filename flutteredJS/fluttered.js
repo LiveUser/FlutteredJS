@@ -156,6 +156,8 @@ function Text(object = new Object(),){
   myText.style.fontSize = object.fontSize !== undefined? `${object.fontSize}px`:'';
   myText.style.fontFamily = object.fontFamily || '';
   myText.style.userSelect = object.selectable == true?'auto':'none';
+  //Break text instead of overflowing
+  myText.style.whiteSpace = 'pre-wrap';
   //To support displaying(updating) global variables replace {{varname}} with a span tag and varname
   const openingTag = [];
   const closingTag = [];
@@ -385,7 +387,7 @@ function GestureDetector(object = new Object(),){
       //Add the touch start event
       var segment1 = [];
       var segment2 = [];
-      object.child.addEventListener('touchstart',()=>{
+      object.child.addEventListener('touchstart',(event)=>{
         //Save initial segment coordinates
         
       });
