@@ -30,6 +30,7 @@ Scaffold({
             text: 'Click Me',
             alertText: "Don't touch me",
           }),
+          GesturesTest(),
         ],
       }),
     }),
@@ -45,5 +46,24 @@ function ClickableText(object = new Object()){
     child: Text({
       text: object.text || '',
     }),
+  });
+}
+function GesturesTest(){
+  return GestureDetector({
+    onRotate: (angle)=>{
+      flutteredGlobal.setValue('gesture',`Rotated: (${angle}°)`);
+    },
+    child: Expanded({
+      child: Container({
+        color: '#ff7da7',
+        borderRadius: 20,
+        child: Center({
+          child: Text({
+            text: 'Gestures Test:\n{{gesture}}',
+            color: 'white',
+          }),
+        }),
+      }),
+    })
   });
 }

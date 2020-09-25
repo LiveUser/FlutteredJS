@@ -6,9 +6,9 @@ Hecho en 🇵🇷 por Radamés J. Valentín Reyes
 
 ## Widgets:
 
-Every Widget is inspired by Flutter, however, it is not a literal copy of flutter and differs a little bit. All the Widgets take an object with the specified properties as argument to meet the aesthetics of Dart code.
+Every Widget is inspired by Flutter, however, it is not a literal copy of flutter and differs a little bit. All the Widgets take an object with the specified properties as argument to meet the aesthetics of Dart code for passing parameters.
 
-<strong>Note: </strong> Unlike Flutter all of the widgets need to be initialized with the <strong>new</strong> keyword since this is pure JavaScript. Also, all parameters have default values.
+<strong>Note: </strong> Unlike Flutter all of the widgets are functions. Also, all parameters have default values.
 
 ### Scaffold:
 
@@ -205,11 +205,21 @@ InputField({
 
 Detects gestures and calls functions when the event is called.
 
+- One finger sliding on the screen is interpreted as panning
+- Two fingers on the screen trigger both onZoom and onRotate.
+
 ~~~javascript
 GestureDetector({
     onTap: ()=>{
         alert('Don\'t touch me');
     },//Set a function as parameter
+    onPan: (displacement)=>{
+      flutteredGlobal.setValue('gesture',`Panned: (${displacement[0]},${displacement[1]})`);
+    },//Sends an array as argument with the displacement in x and y axis. Position 0 is X displacement and Array position 1 is Y displacement
+    onZoom: (zoom)=>{
+        //Gives you as argument the distance change between fingers
+        alert(zoom);
+    },//Function with one positional parameter
     child: Text({
         text: 'Click Me',
     }),//Some fluttered.js widget

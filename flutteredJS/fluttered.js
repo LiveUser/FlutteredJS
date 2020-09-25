@@ -382,14 +382,87 @@ function GestureDetector(object = new Object(),){
     if(typeof object.onTap == 'function'){
       object.child.addEventListener('click',object.onTap);
     }
-    //Attach touch controls
-    if(object.onPan !== undefined || object.onRotate === undefined || object.onZoom === undefined){
-      //Add the touch start event
-      var segment1 = [];
-      var segment2 = [];
+    //Attach touch controls only when a touch function is added
+    if(object.onPan !== undefined || object.onRotate !== undefined || object.onZoom !== undefined){
+      var segment1 = null;
+      var panOrigin = null;
+      //Add the touch start event to save initial values
       object.child.addEventListener('touchstart',(event)=>{
-        //Save initial segment coordinates
-        
+        //Check How many fingers touched the screen
+        if(event.changedTouches.length == 1){
+          //Pan initial point
+          //Save initial origin coordinates
+          let x = event.changedTouches[0].pageX;
+          let y = event.changedTouches[0].pageY;
+          panOrigin = [x,y];
+        }else if(event.changedTouches.length == 2){
+          //Zoom initial segment
+          let x1 = event.changedTouches[0].pageX;
+          let y1 = event.changedTouches[0].pageY;
+          let x2 = event.changedTouches[1].pageX;
+          let y2 = event.changedTouches[1].pageY;
+          segment1 = [[x1,y1],[x2,y2]];
+        }else{
+
+        }
+      });
+      //TouchMove to make calculations and call functions
+      object.child.addEventListener('touchmove',(event)=>{
+        if(event.changedTouches.length == 1){
+          //Pan functionality
+          if(typeof object.onPan == 'function'){
+            //Calculate the distance between points
+            let x2 = event.changedTouches[0].pageX;
+            let y2 = event.changedTouches[0].pageY;
+            //Calculate the displacement
+            let deltaX = x2 - panOrigin[0];
+            let deltaY = y2 - panOrigin[1];
+            //Set the new coordinates as the origin
+            panOrigin = [x2,y2];
+            //Set as parameter and call the function
+            object.onPan([deltaX,deltaY]);
+          }
+        }else if(event.changedTouches.length == 2){
+          //Zoom and rotate functionality goes here
+          if(segment1 == null){
+            //Do not run the functions
+          }else{
+            if(typeof object.onZoom == 'function'){
+              //Avoid calling the function with null value
+              //a^2 + b^2 = c^2
+              let deltaX1 = Math.pow(segment1[0][0] - segment1[1][0],2);
+              let deltaY1 = Math.pow(segment1[0][1] - segment1[1][1],2);
+              let distance1 = Math.sqrt(deltaX1 + deltaY1);
+              //Calculate the distance for the new segment
+              let deltaX2 = Math.pow(event.changedTouches[0].pageX - event.changedTouches[1].pageX,2);
+              let deltaY2 = Math.pow(event.changedTouches[0].pageY - event.changedTouches[1].pageY,2);
+              let distance2 = Math.sqrt(deltaX2 + deltaY2);
+              //Calculate the difference in distance
+              let diff = distance2 - distance1;
+              object.onZoom(diff);
+            }
+            if(typeof object.onRotate == 'function'){
+              let deltaX1 = segment1[0][0] - segment1[1][0];
+              let deltaY1 = -segment1[0][1] - segment1[1][1];
+              let angle1 = ((Math.atan(Math.tan(deltaY1/deltaX1)))*180) / Math.PI;
+              //Calculate the second angle
+              let deltaX2 = event.changedTouches[0].pageX - event.changedTouches[1].pageX;
+              let deltaY2 = event.changedTouches[0].pageY - event.changedTouches[1].pageY;
+              let angle2 = ((Math.atan(Math.tan(deltaY2/deltaX2)))*180) / Math.PI;
+              let angleDifference = angle2 - angle1;
+              object.onRotate(angleDifference);
+            }
+          }
+          //Set this coordinates as the new reference segment
+          segment1 = [[event.changedTouches[0].pageX,event.changedTouches[0].pageY],[event.changedTouches[1].pageX,event.changedTouches[1].pageY]];
+        }else{
+
+        }
+      });
+      //TouchEnd to set values baack to its default
+      object.child.addEventListener('touchend',()=>{
+        segment1 = null;
+        panOrigin = null;
       });
     }
     return object.child;
