@@ -66,6 +66,8 @@ Scaffold({
 });
 ~~~
 
+<strong>Note:</strong> this is inside the ./testFlut.js file
+
 ### A simple example
 
 This code will create a Text() Widget and center it into the screen
@@ -80,3 +82,20 @@ Scaffold({
 });
 ~~~
 
+
+
+### Testing on Mobile
+
+The easiest way of testing your app is by making your page available in your network by using a server. A very easy and great way to do this effortlessly is by using the Live Server extension for Visual Studio Code by Ritwick Dey. This way you can connect your computer and Mobile device to the same router and access the website so that you can test your touch controls.
+
+Always remember in order to access a server you need to understand the URL.
+
+Example: http://myIP:portnumber
+
+<a href="https://www.w3schools.com/html/html_urlencode.asp">More info on URL Encoding</a>
+
+### Get computer IP
+
+To get your computer's local IP you can use the command prompt/line and run the command ipconfig on Windows
+
+ and ifconfig on Linux.
