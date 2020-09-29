@@ -220,6 +220,10 @@ GestureDetector({
         //Gives you as argument the distance change between fingers
         alert(zoom);
     },//Function with one positional parameter
+    onRotate: (angle)=>{
+      //angle is the change in degrees of the movement of the fingers
+      flutteredGlobal.setValue('gesture',`Rotated: (${angle}°)`);
+    },//A function taking a number as argument
     child: Text({
         text: 'Click Me',
     }),//Some fluttered.js widget

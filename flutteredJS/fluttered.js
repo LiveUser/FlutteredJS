@@ -442,15 +442,37 @@ function GestureDetector(object = new Object(),){
               object.onZoom(diff);
             }
             if(typeof object.onRotate == 'function'){
-              let deltaX1 = segment1[0][0] - segment1[1][0];
-              let deltaY1 = -segment1[0][1] - segment1[1][1];
-              let angle1 = ((Math.atan(Math.tan(deltaY1/deltaX1)))*180) / Math.PI;
-              //Calculate the second angle
-              let deltaX2 = event.changedTouches[0].pageX - event.changedTouches[1].pageX;
-              let deltaY2 = event.changedTouches[0].pageY - event.changedTouches[1].pageY;
-              let angle2 = ((Math.atan(Math.tan(deltaY2/deltaX2)))*180) / Math.PI;
-              let angleDifference = angle2 - angle1;
-              object.onRotate(angleDifference);
+              let x1 = event.changedTouches[0].pageX;
+              let y1 = event.changedTouches[0].pageY;
+              let x2 = event.changedTouches[1].pageX;
+              let y2 = event.changedTouches[1].pageY;
+              //Calculate the midpoint
+              let midpointX = (x1 + x2) / 2;
+              let midpointY = (y1 + y2) / 2;
+              //Calculate coordinates relative to the midpoint
+                //I'm using the first finger as reference.
+              let referenceX = x1 - midpointX;
+              let referenceY = y1 - midpointY;
+              //Calculate the angle
+              let newAngle = Math.atan(
+                Math.tan(referenceY/referenceX)
+              );
+              //Calculate Old midpoint
+              let oldMidpointX = (segment1[0][0] + segment1[1][0]) / 2;
+              let oldMidpointY = (segment1[0][1] + segment1[1][1]) / 2;
+              //Calculate old references
+              let oldReferenceX = segment1[0][0] - oldMidpointX;
+              let oldReferenceY = segment1[0][1] - oldMidpointY;
+              //Calculate the old angle
+              let oldAngle = Math.atan(
+                Math.tan(oldReferenceY / oldReferenceX)
+              );
+              //Calculate the angular difference
+              let angleDelta = newAngle - oldAngle;
+              //Convert radians to degrees
+              angleDelta = angleDelta * 180 / Math.PI;
+              //Call the callback function
+              object.onRotate(angleDelta);
             }
           }
           //Set this coordinates as the new reference segment
