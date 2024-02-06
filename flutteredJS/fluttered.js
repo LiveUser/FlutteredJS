@@ -527,16 +527,30 @@ function FutureBuilder(object = new Object()){
   if(typeof(object.future) != 'function'){
     throw "The parameter future must be a function";
   }
+  if(typeof(object.id) != "string"){
+    throw "Must create a unique id for the FutureBuilder";
+  }
   //Create an element that will be replaced in the future
-  var futureContainer = object.onLoad() || Center({
-    child: Text({
-      text: "Loading...",
-    }),
-  });
+  var futureContainer
+  if(document.getElementById(object.id) == null){
+    futureContainer = object.onLoad() || Center({
+      child: Text({
+        text: "Loading...",
+      }),
+    });
+    futureContainer.id = object.id;
+  }else{
+    futureContainer = document.getElementById(object.id);
+  }
   object.future().then((result)=>{
-    futureContainer.replaceWith(object.onSuccess(result));
+    //console.log(result);
+    var newContent = object.onSuccess(result);
+    newContent.id = object.id;
+    futureContainer.replaceWith(newContent);
   }).catch((error)=>{
-    futureContainer.replaceWith(object.onError(error));
+    var newContent = object.onError(error);
+    newContent.id = object.id;
+    futureContainer.replaceWith(newContent);
   });
   //Return element
   return futureContainer;

@@ -263,6 +263,7 @@ The rest of the parameters must be functions that return Widgets.
 
 ~~~javascript
 FutureBuilder({
+  id: "uniqueName",
   future: async()=>{
     return "Test text";
   },
