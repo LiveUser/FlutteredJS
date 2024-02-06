@@ -518,6 +518,27 @@ function GestureDetector(object = new Object(),){
 }
 //--------------------
 function FutureBuilder(object = new Object()){
-  
+  if(object.future == null){
+    throw "Must assign a future function";
+  }
+  if(typeof(object.future) != 'function'){
+    throw "The parameter future must be a function";
+  }
+  //Create an element that will be replaced in the future
+  var futureContainer = object.onLoad() || Center({
+    child: Text({
+      text: "Loading...",
+    }),
+  });
+  try{
+    object.future().then((result)=>{
+      object.onSuccess(result);
+      futureContainer.replaceWith(result);
+    });
+  }catch(error){
+    object.onError(error);
+  }
+  //Return element
+  return futureContainer;
 }
 //--------------------

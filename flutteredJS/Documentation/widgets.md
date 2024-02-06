@@ -246,3 +246,33 @@ GestureDetector({
 }),
 ~~~
 
+### Future Builder
+A widget for displaying different widgets while an asynchonous function gets executed.
+Methods are provided for when:
+- Function is loading
+- Function throws an error
+- Function execution succedes
+
+Future parameter must be an asynchronous function that returns something.
+The rest of the parameters must be functions that return Widgets.
+
+~~~javascript
+FutureBuilder({
+  future: async()=>{
+    return "Test text";
+  },
+  onLoad: ()=>{
+    return Text({
+      text: "Loading data",
+    });
+  },
+  onSuccess: (result)=>{
+    return Text({
+      text: result,
+    });
+  },
+  onError: (error)=>{
+    console.log(error);
+  },
+}),
+~~~

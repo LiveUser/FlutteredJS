@@ -42,6 +42,24 @@ Scaffold({
               }),
             ],
           }),
+          FutureBuilder({
+            future: async()=>{
+              return "Test text";
+            },
+            onLoad: ()=>{
+              return Text({
+                text: "Loading data",
+              });
+            },
+            onSuccess: (result)=>{
+              return Text({
+                text: result,
+              });
+            },
+            onError: (error)=>{
+              console.log(error);
+            },
+          }),
         ],
       }),
     }),
