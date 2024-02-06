@@ -69,6 +69,7 @@ Scaffold({
             ],
           }),
           FutureBuilder({
+            id: "uniqueIdentifier",
             future: async()=>{
               return "Test text";
             },
