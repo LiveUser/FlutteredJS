@@ -281,3 +281,38 @@ FutureBuilder({
   },
 }),
 ~~~
+
+### Stateful Widget
+A widget that can be realoaded.
+
+~~~javascript
+StatefulWidget({
+  uniqueName: "uniqueName",
+  builder: ()=>{
+    //Get date
+    var date = new Date();
+    //return Widget
+    return Expanded({
+      child: Row({
+        children: [
+          Expanded({
+            child: Container({
+              color: "black",
+              child: Text({
+                color: 'white',
+                text: `Last update: ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+                textAlign: TextAlign.center,
+              }),
+            }),
+          }),
+        ],
+      }),
+    });
+  },
+}),
+~~~
+
+The function to call reload is SetState:
+~~~javascript
+SetState("uniqueName");
+~~~
