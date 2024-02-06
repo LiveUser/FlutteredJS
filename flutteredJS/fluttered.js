@@ -144,30 +144,6 @@ function Row(object = new Object(),){
   myRow.style.height = '100%';
   myRow.style.flexBasis = '100%';
   myRow.style.display = 'flex';
-  myRow.style.flexDirection = `column${object.contentDirection || ContentDirection.default}`;
-  myRow.style.flex = object.flex !== undefined? object.flex.toString():'1';
-  myRow.style.backgroundColor = object.backgroundColor || '';
-  myRow.style.boxSizing = 'border-box';
-  myRow.style.borderRadius = object.borderRadius !== undefined? `${object.borderRadius}px`:'0%';
-  myRow.style.padding = object.padding !== undefined? `${object.padding}px`:'0px';
-  //This is horizontal alignment
-  myRow.style.justifyContent = object.mainAxisAlignment || MainAxisAlignment.start;
-  //This is vertical alignment
-  myColumn.style.alignItems = object.crossAxisAlignment || CrossAxisAlignment.start;
-  //Populate the Column with children, childres is a reserved name of HTML element so I used kids instead
-  this.kids = object.children || [];
-  this.kids.forEach(HTMLelement => {
-    myColumn.appendChild(HTMLelement);
-  });
-  return myColumn;
-}
-//--------------------
-function Row(object = new Object(),){
-  const myRow = document.createElement('_Row_');
-  myRow.style.width = '100%';
-  myRow.style.height = '100%';
-  myRow.style.flexBasis = '100%';
-  myRow.style.display = 'flex';
   myRow.style.flexDirection = `row${object.contentDirection || ContentDirection.default}`;
   myRow.style.flex = object.flex !== undefined? object.flex.toString():'1';
   myRow.style.backgroundColor = object.backgroundColor || '';
