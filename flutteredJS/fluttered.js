@@ -66,6 +66,11 @@ var InputType = {
   url: 'url',
   week: 'week',
 };
+var ExpandDirection = {
+  vertical: 'vertical',
+  horizontal: 'horizontal',
+  both: 'both',
+};
 /*Functions for the widgets
 ------------------------------------------------------------------------------------------------------------------------*/
   //Global variable functionality
@@ -303,17 +308,11 @@ function Image(object = new Object(),){
 //--------------------
 function Expanded(object = new Object(),){
   if(object.child !== undefined){
-    if(object.parentNode != null){
-      //Expand in the main axis
-      if(object.parentNode.tagName == "_column_"){
-        object.child.style.width = object.child.style.width == ''?'100%': object.child.style.width;
-      }else if(object.parentNode.tagName == "_row_"){
-        object.child.style.height = object.child.style.height == ''?'100%':object.child.style.height;
-      }else{
-        //Expand in both directions
-        object.child.style.width = object.child.style.width == ''?'100%': object.child.style.width;
-        object.child.style.height = object.child.style.height == ''?'100%':object.child.style.height;
-      }
+    //Expand in the main axis
+    if(object.expandDirection == ExpandDirection.vertical){
+      object.child.style.height = object.child.style.height == ''?'100%':object.child.style.height;
+    }else if(object.expandDirection == ExpandDirection.horizontal){
+      object.child.style.width = object.child.style.width == ''?'100%': object.child.style.width;
     }else{
       //Expand in both directions
       object.child.style.width = object.child.style.width == ''?'100%': object.child.style.width;

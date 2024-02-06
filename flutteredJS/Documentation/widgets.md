@@ -132,10 +132,15 @@ Makes the unset dimensions of the child 100% of the parent. If you want to const
 
 ~~~javascript
 Expanded({
-    child: Container({
-        color: 'green',
-        width: 20,
+  expandDirection: ExpandDirection.horizontal,
+  child: Container({
+    color: 'black',
+    child: Text({
+      text: "Fluttered Practice",
+      color: 'white',
+      textAlign: TextAlign.center,
     }),
+  }),
 }),
 ~~~
 
