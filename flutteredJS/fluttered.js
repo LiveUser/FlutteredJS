@@ -539,14 +539,12 @@ function FutureBuilder(object = new Object()){
       text: "Loading...",
     }),
   });
-  try{
-    object.future().then((result)=>{
-      object.onSuccess(result);
-      futureContainer.replaceWith(result);
-    });
-  }catch(error){
+  object.future().then((result)=>{
+    object.onSuccess(result);
+    futureContainer.replaceWith(result);
+  }).catch((error)=>{
     object.onError(error);
-  }
+  });
   //Return element
   return futureContainer;
 }
