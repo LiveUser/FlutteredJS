@@ -119,6 +119,30 @@ function Column(object = new Object(),){
 }
 //--------------------
 function Row(object = new Object(),){
+  const myRow = document.createElement('_row_');
+  myRow.style.width = '100%';
+  myRow.style.height = '100%';
+  myRow.style.flexBasis = '100%';
+  myRow.style.display = 'flex';
+  myRow.style.flexDirection = `column${object.contentDirection || ContentDirection.default}`;
+  myRow.style.flex = object.flex !== undefined? object.flex.toString():'1';
+  myRow.style.backgroundColor = object.backgroundColor || '';
+  myRow.style.boxSizing = 'border-box';
+  myRow.style.borderRadius = object.borderRadius !== undefined? `${object.borderRadius}px`:'0%';
+  myRow.style.padding = object.padding !== undefined? `${object.padding}px`:'0px';
+  //This is horizontal alignment
+  myRow.style.justifyContent = object.mainAxisAlignment || MainAxisAlignment.start;
+  //This is vertical alignment
+  myColumn.style.alignItems = object.crossAxisAlignment || CrossAxisAlignment.start;
+  //Populate the Column with children, childres is a reserved name of HTML element so I used kids instead
+  this.kids = object.children || [];
+  this.kids.forEach(HTMLelement => {
+    myColumn.appendChild(HTMLelement);
+  });
+  return myColumn;
+}
+//--------------------
+function Row(object = new Object(),){
   const myRow = document.createElement('_Row_');
   myRow.style.width = '100%';
   myRow.style.height = '100%';
@@ -131,9 +155,9 @@ function Row(object = new Object(),){
   myRow.style.boxSizing = 'border-box';
   myRow.style.borderRadius = object.borderRadius !== undefined? `${object.borderRadius}px`:'0%';
   //This is horizontal alignment
-  myRow.style.justifyContent = object.crossAxisAlignment || CrossAxisAlignment.start;
+  myRow.style.justifyContent = object.mainAxisAlignment || MainAxisAlignment.start;
   //This is vertical alignment
-  myRow.style.alignItems = object.mainAxisAlignment || MainAxisAlignment.start;
+  myRow.style.alignItems = object.crossAxisAlignment || CrossAxisAlignment.start;
   //Populate the Column with children, childres is a reserved name of HTML element so I used kids instead
   this.kids = object.children || [];
   this.kids.forEach(HTMLelement => {
@@ -158,6 +182,8 @@ function Text(object = new Object(),){
   myText.style.userSelect = object.selectable == true?'auto':'none';
   //Break text instead of overflowing
   myText.style.whiteSpace = 'pre-wrap';
+  //Have a span like tag with a variablename as parameter to be a placeholder of  global variable display
+  //The {{VariableName}} will be replaced with a custom span tag element and a variable property to define who it belongst to
   //To support displaying(updating) global variables replace {{varname}} with a span tag and varname
   const openingTag = [];
   const closingTag = [];
@@ -242,7 +268,7 @@ function Container(object = new Object(),){
   }
   myContainer.style.backgroundColor = object.color || '';
   myContainer.style.padding = object.padding !== undefined? `${object.padding}px`:'0';
-  //Add chilf if exists
+  //Add child if exists
   if(object.child !== undefined){
     myContainer.appendChild(object.child);
   }
@@ -491,9 +517,7 @@ function GestureDetector(object = new Object(),){
   }
 }
 //--------------------
-function StatefulWidget(){
-
+function FutureBuilder(object = new Object()){
+  
 }
 //--------------------
-//Have a span like tag with a variablename as parameter to be a placeholder of  global variable display
-//The {{VariableName}} will be replaced with a custom span tag element and a variable property to define who it belongst to

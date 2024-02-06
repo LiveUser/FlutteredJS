@@ -39,6 +39,22 @@ Column({
     contentDirection: ContentDirection.default, //ContentDirection enum
   }),
 ~~~
+
+
+Stacks Children horizontally in a row
+
+~~~javascript
+Row({
+    backgroundColor: 'red', //CSS color String, default is white
+    children: [], //Array of Fluttered Widgets
+    flex: 1, //Flex Number
+    padding: 2, //Padding as a Number
+    borderRadius: 20, //Border Radius 0 - 100 Decimal because it is in percent
+    crossAxisAlignment: CrossAxisAlignment.start, //Use the CrossAxisAlignment enum assign a property
+    mainAxisAlignment: MainAxisAlignment.start, //Use the MainAxisAlignment.start enum
+    contentDirection: ContentDirection.default, //ContentDirection enum
+  }),
+~~~
 ### Text:
 
 Returns a flexible container with the specified text string;

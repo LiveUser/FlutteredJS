@@ -31,6 +31,17 @@ Scaffold({
             alertText: "Don't touch me",
           }),
           GesturesTest(),
+          Row({
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text({
+                text: "Row item",
+              }),
+              Text({
+                text: "Row item",
+              }),
+            ],
+          }),
         ],
       }),
     }),
