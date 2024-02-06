@@ -45,6 +45,26 @@ var OpenLink = {
 var InputType = {
   text: 'text',
   number: 'number',
+  button: 'button',
+  checkbox: 'checkbox',
+  color: 'color',
+  date: 'date',
+  datetimeLocal: 'datetime-local',
+  email: 'email',
+  file: 'file',
+  hidden: 'hidden',
+  image: 'image',
+  month: 'month',
+  password: 'password',
+  radio: 'radio',
+  range: 'range',
+  reset: 'reset',
+  search: 'search',
+  submit: 'submit',
+  tel: 'tel',
+  time: 'time',
+  url: 'url',
+  week: 'week',
 };
 /*Functions for the widgets
 ------------------------------------------------------------------------------------------------------------------------*/
@@ -540,5 +560,28 @@ function FutureBuilder(object = new Object()){
   }
   //Return element
   return futureContainer;
+}
+//--------------------
+var SavedStates = {};
+//Set State function
+function SetState(uniqueName){
+  var widget = SavedStates[uniqueName]();
+  widget.setAttribute("id", uniqueName);
+  document.getElementById(uniqueName).replaceWith(widget);
+}
+//Stateful Widget
+function StatefulWidget(object = new Object()){
+  if(object.uniqueName == null){
+    throw "Stateful Widget must have a uniqueName";
+  }
+  if(object.builder == null){
+    throw "Stateful Widget must have a builder function that returns a Widget";
+  }
+  var builtWidget = object.builder();
+  //Add uniqueName as element ID
+  builtWidget.setAttribute("id", object.uniqueName);
+  //Save function for when SetState gets called
+  SavedStates[object.uniqueName] = object.builder;
+  return builtWidget;
 }
 //--------------------

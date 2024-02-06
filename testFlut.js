@@ -18,10 +18,36 @@ Scaffold({
             child: InputField({
               height: 30,
               placeholder: 'UserName',
+              type: InputType.text,
               onChange: (newValue)=>{
                 flutteredGlobal.setValue('myUserName',newValue);
+                SetState("lastUpdate");
               },
             }),
+          }),
+          StatefulWidget({
+            uniqueName: "lastUpdate",
+            builder: ()=>{
+              //Get date
+              var date = new Date();
+              //return Widget
+              return Expanded({
+                child: Row({
+                  children: [
+                    Expanded({
+                      child: Container({
+                        color: "black",
+                        child: Text({
+                          color: 'white',
+                          text: `Last update: ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+                          textAlign: TextAlign.center,
+                        }),
+                      }),
+                    }),
+                  ],
+                }),
+              });
+            },
           }),
           SizedBox({
             height: 20,
