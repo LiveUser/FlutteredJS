@@ -83,13 +83,11 @@ var ExpandDirection = {
     flutteredGlobal._variables[variableName] = variableValue;
     //Update the elements where it gets called by searching them
     const allSpans = document.getElementsByTagName('span');
-    for(i=0; i < allSpans.length;i++){
+    for(i = 0; i < allSpans.length;i++){
       const thisElement = allSpans.item(i);
       //If element has my varname update its content
       if(thisElement.getAttribute('varname') == variableName){
         thisElement.innerHTML = `${variableValue}`;
-      }else{
-
       }
     }
   };
@@ -399,11 +397,7 @@ function InputField(object = new Object(),){
   if(typeof object.onChange =='function'){
     myInputField.addEventListener('input',()=>{
       var inputValue = myInputField.value;
-      //Do not call if the input is for number and it is not a number
-      if(myInputField.type == InputType.number && Number(inputValue) !== NaN || myInputField.type == InputType.text){
-        //If the inputtype is number send back a number
-        object.onChange(myInputField.type == InputType.number?Number(inputValue):inputValue);
-      }
+      object.onChange(inputValue);
     });
   }
   return myInputField;
@@ -540,10 +534,9 @@ function FutureBuilder(object = new Object()){
     }),
   });
   object.future().then((result)=>{
-    object.onSuccess(result);
-    futureContainer.replaceWith(result);
+    futureContainer.replaceWith(object.onSuccess(result));
   }).catch((error)=>{
-    object.onError(error);
+    futureContainer.replaceWith(object.onError(error));
   });
   //Return element
   return futureContainer;
@@ -552,9 +545,10 @@ function FutureBuilder(object = new Object()){
 var SavedStates = {};
 //Set State function
 function SetState(uniqueName){
-  var widget = SavedStates[uniqueName]();
-  widget.setAttribute("id", uniqueName);
-  document.getElementById(uniqueName).replaceWith(widget);
+  var widget = SavedStates[uniqueName].builder();
+  //console.log(widget);
+  SavedStates[uniqueName].reference.replaceWith(widget);
+  //console.log('Replaced successfully');
 }
 //Stateful Widget
 function StatefulWidget(object = new Object()){
@@ -565,10 +559,11 @@ function StatefulWidget(object = new Object()){
     throw "Stateful Widget must have a builder function that returns a Widget";
   }
   var builtWidget = object.builder();
-  //Add uniqueName as element ID
-  builtWidget.setAttribute("id", object.uniqueName);
   //Save function for when SetState gets called
-  SavedStates[object.uniqueName] = object.builder;
+  SavedStates[object.uniqueName] = {
+    builder: object.builder,
+    reference: builtWidget,
+  };
   return builtWidget;
 }
 //--------------------
